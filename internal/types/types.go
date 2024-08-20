@@ -9,6 +9,3 @@ const (
 	TypeFloat   FieldType = "float"
 	TypeBoolean FieldType = "boolean"
 )
-
-// ValidatorFunc is a function type for custom validators
-type ValidatorFunc func(interface{}) bool

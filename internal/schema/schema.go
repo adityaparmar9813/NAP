@@ -66,6 +66,16 @@ func (s *Schema) PrintSchema() {
 	}
 }
 
+func (s *Schema) AddRecord(doc map[string]interface{}) error {
+	err := s.Validate(doc)
+	if err != nil {
+		return err
+	}
+
+	storage.SaveStructToFile(doc, "./collections/user.json")
+	return nil
+}
+
 func Test() {
 	// Create a new schema
 	schema := NewSchema()
@@ -121,6 +131,7 @@ func Test() {
 	}
 
 	schema.PrintSchema()
+	storage.SaveStructToFile(schema, "./schemas/user.json")
 
 	// Example valid document
 	doc := map[string]interface{}{
@@ -128,6 +139,21 @@ func Test() {
 		"age":   30,
 		"email": "john@example.com",
 	}
+
+	err = storage.LoadStructFromFile("./schemas/user.json", schema)
+	if err != nil {
+		fmt.Println("Error loading schema:", err)
+		return
+	}
+
+	schema.PrintSchema()
+
+	err = schema.AddRecord(doc)
+	if err != nil {
+		fmt.Println("Error adding record:", err)
+		return
+	}
+	fmt.Println("Record added successfully")
 
 	// Validate the document against the schema
 	err = schema.Validate(doc)
@@ -151,7 +177,6 @@ func Test() {
 			fmt.Printf("Invalid document %d: %v\n", i+1, err)
 		}
 	}
-	storage.SaveStructToFile(schema, "./schemas/user.json")
 }
 
 // Build a schema

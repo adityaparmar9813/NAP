@@ -7,7 +7,21 @@ import (
 	"github.com/adityaparmar9813/NAP/internal/types"
 )
 
-func ValidateType(value interface{}, fieldType types.FieldType) error {
+// ValidatorInterface defines the methods for validating field types
+type ValidatorInterface interface {
+	ValidateType(value interface{}, fieldType types.FieldType) error
+}
+
+// Validator struct implements the ValidatorInterface
+type Validator struct{}
+
+// NewValidator creates a new Validator instance
+func NewValidator() *Validator {
+	return &Validator{}
+}
+
+// ValidateType checks if the value conforms to the specified FieldType
+func (v *Validator) ValidateType(value interface{}, fieldType types.FieldType) error {
 	switch fieldType {
 	case types.TypeString:
 		if _, ok := value.(string); !ok {

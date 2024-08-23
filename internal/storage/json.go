@@ -8,6 +8,20 @@ import (
 	"path/filepath"
 )
 
+// StorageInterface defines the methods for storage operations
+type StorageInterface interface {
+	SaveStructToFile(v interface{}, filename string) error
+	LoadStructFromFile(filename string, v interface{}) error
+}
+
+// FileStorage struct implements the StorageInterface
+type FileStorage struct{}
+
+// NewFileStorage creates a new FileStorage instance
+func NewFileStorage() *FileStorage {
+	return &FileStorage{}
+}
+
 // StructToJSON converts a struct to a JSON byte slice
 func StructToJSON(v interface{}) ([]byte, error) {
 	return json.Marshal(v)
@@ -59,7 +73,7 @@ func LoadJSONFromFile(filename string) ([]byte, error) {
 }
 
 // SaveStructToFile converts a struct to JSON and saves it to a file
-func SaveStructToFile(v interface{}, filename string) error {
+func (fs *FileStorage) SaveStructToFile(v interface{}, filename string) error {
 	data, err := StructToJSON(v)
 	if err != nil {
 		return fmt.Errorf("failed to convert struct to JSON: %w", err)
@@ -69,7 +83,7 @@ func SaveStructToFile(v interface{}, filename string) error {
 }
 
 // LoadStructFromFile loads JSON data from a file and converts it to a struct
-func LoadStructFromFile(filename string, v interface{}) error {
+func (fs *FileStorage) LoadStructFromFile(filename string, v interface{}) error {
 	data, err := LoadJSONFromFile(filename)
 	if err != nil {
 		return err

@@ -4,10 +4,9 @@ import (
 	"fmt"
 
 	"github.com/adityaparmar9813/NAP/internal/schema"
-	"github.com/adityaparmar9813/NAP/internal/storage"
 )
 
-func Collection() (*schema.Schema, error) {
+func Collection(storage schema.StorageInterface) (*schema.Schema, error) {
 	schema := schema.NewSchema()
 
 	err := storage.LoadStructFromFile("./schemas/user.json", schema)

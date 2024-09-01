@@ -10,7 +10,7 @@ import (
 
 type StorageInterface interface {
 	SaveStructToFile(v interface{}, filename string) error
-	LoadStructFromFile(filename string, v interface{}) error
+	LoadStructFromFile(filepath string, v interface{}) error
 }
 
 type FileStorage struct{}

@@ -8,31 +8,25 @@ import (
 	"path/filepath"
 )
 
-// StorageInterface defines the methods for storage operations
 type StorageInterface interface {
 	SaveStructToFile(v interface{}, filename string) error
 	LoadStructFromFile(filename string, v interface{}) error
 }
 
-// FileStorage struct implements the StorageInterface
 type FileStorage struct{}
 
-// NewFileStorage creates a new FileStorage instance
 func NewFileStorage() *FileStorage {
 	return &FileStorage{}
 }
 
-// StructToJSON converts a struct to a JSON byte slice
 func StructToJSON(v interface{}) ([]byte, error) {
 	return json.Marshal(v)
 }
 
-// JSONToStruct converts a JSON byte slice back to a struct
 func JSONToStruct(data []byte, v interface{}) error {
 	return json.Unmarshal(data, v)
 }
 
-// SaveJSONToFile saves JSON data to a file
 func SaveJSONToFile(data []byte, filename string) error {
 	// Ensure the directory exists
 	dir := filepath.Dir(filename)
@@ -56,7 +50,6 @@ func SaveJSONToFile(data []byte, filename string) error {
 	return nil
 }
 
-// LoadJSONFromFile loads JSON data from a file
 func LoadJSONFromFile(filename string) ([]byte, error) {
 	file, err := os.Open(filename)
 	if err != nil {
@@ -72,7 +65,6 @@ func LoadJSONFromFile(filename string) ([]byte, error) {
 	return data, nil
 }
 
-// SaveStructToFile converts a struct to JSON and saves it to a file
 func (fs *FileStorage) SaveStructToFile(v interface{}, filename string) error {
 	data, err := StructToJSON(v)
 	if err != nil {
@@ -82,7 +74,15 @@ func (fs *FileStorage) SaveStructToFile(v interface{}, filename string) error {
 	return SaveJSONToFile(data, filename)
 }
 
-// LoadStructFromFile loads JSON data from a file and converts it to a struct
+func (fs *FileStorage) AddStructToFile(v interface{}, filename string) error {
+	data, err := StructToJSON(v)
+	if err != nil {
+		return fmt.Errorf("failed to convert struct to JSON: %w", err)
+	}
+
+	return SaveJSONToFile(data, filename)
+}
+
 func (fs *FileStorage) LoadStructFromFile(filename string, v interface{}) error {
 	data, err := LoadJSONFromFile(filename)
 	if err != nil {

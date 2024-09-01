@@ -1,18 +1,21 @@
 package driver
 
-import (
-	"fmt"
+// func Collection(storage schema.StorageInterface) (*schema.Schema, error) {
+// 	schema := schema.NewSchema()
 
-	"github.com/adityaparmar9813/NAP/internal/schema"
-)
+// 	err := storage.LoadStructFromFile("./schemas/user.json", schema)
+// 	if err != nil {
+// 		return schema, fmt.Errorf("error loading schema: %w", err)
+// 	}
 
-func Collection(storage schema.StorageInterface) (*schema.Schema, error) {
-	schema := schema.NewSchema()
+// 	return schema, nil
+// }
 
-	err := storage.LoadStructFromFile("./schemas/user.json", schema)
-	if err != nil {
-		return schema, fmt.Errorf("error loading schema: %w", err)
-	}
+// func Insert(storage schema.storageinterface, schema *schema.schema, data interface{}) error {
+// 	err := schema.addrecord(data)
+// 	if err != nil {
+// 		return fmt.errorf("error inserting data: %w", err)
+// 	}
 
-	return schema, nil
-}
+// 	return nil
+// }

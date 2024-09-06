@@ -211,12 +211,31 @@ func Test(storage storage.StorageInterface, validator validator.ValidatorInterfa
 	ageCriteria := map[string]interface{}{
 		"age": 20,
 	}
+	nameCriteria := map[string]interface{}{
+		"name": "Arpit Dubey",
+	}
+	ageAndNameCriteria := map[string]interface{}{
+		"age":  22,
+		"name": "Arpit Dubey",
+	}
 	matchingRecords, err := schema.GetRecord(ageCriteria, storage)
 	if err != nil {
 		fmt.Println("Error getting records:", err)
 		return
 	}
-	fmt.Println("Matching records:", matchingRecords)
+	fmt.Println("Age Matching records:", matchingRecords)
+	matchingRecords, err = schema.GetRecord(nameCriteria, storage)
+	if err != nil {
+		fmt.Println("Error getting records:", err)
+		return
+	}
+	fmt.Println("Name Matching records:", matchingRecords)
+	matchingRecords, err = schema.GetRecord(ageAndNameCriteria, storage)
+	if err != nil {
+		fmt.Println("Error getting records:", err)
+		return
+	}
+	fmt.Println("Age and Name Matching records:", matchingRecords)
 
 	// Invalid document examples
 	invalidDocs := []map[string]interface{}{
